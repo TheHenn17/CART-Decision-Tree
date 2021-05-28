@@ -148,7 +148,7 @@ vector<double> CART::getOutputs(vector<vector<string>> instances) {
 /*calcuates the improvement from the parents output domain to the childrens output domains
 using the sum of squares method. the more improvement, the better the split is
 Formula: Improvement = sum(parent(i)-parent(avg))^2 - sum(left(i)-left(avg))^2 - sum(right(i)-right(avg))^2
-https://machinelearningmastery.com/classification-and-regression-trees-for-machine-learning/*/
+https://support.minitab.com/en-us/minitab/19/help-and-how-to/statistical-modeling/predictive-analytics/how-to/cart-regression/methods-and-formulas/node-splitting-methods/*/
 double CART::calcImprovement(vector<double> parent, vector<double> left, vector<double> right) {
     double avgParent = getAvg(parent);
     double avgRight = getAvg(right);
