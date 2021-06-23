@@ -7,7 +7,7 @@ int main() {
     unsigned depth;
     Function* function = 0;
 
-    cout << "Welcome to *UHHHH WE NEEED A NAME*\n\n";
+    cout << "Welcome to Cool Tree Program\n\n";
     cout << "Please enter the function you would like to approximate:\n";
     cout << "\t1. Distance\n";
     cout << "\t2. Polynomial\n";
