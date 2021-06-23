@@ -47,21 +47,21 @@ class CART {
         /*called by constructor. will find the attributes in the training data that improves
         the search the most (see calcImprovement). Then, it splits the input domain according
         to the attribute chose, and recursively calculates the child subtrees*/
-        node* generateTree(vector<vector<string>> instances, int curDepth);
+        node* generateTree(vector<vector<string> > instances, int curDepth);
 
         /*given a potential split value, this function seperates the output domain by the instances
         that are less than or equal to the split value, and those that are greater*/
-        void split(vector<vector<string>> instances, string splitValue, int attribute, vector<double>& left, vector<double>& right);
+        void split(vector<vector<string> > instances, string splitValue, int attribute, vector<double>& left, vector<double>& right);
 
         //returns the output domain of the given set of instances
-        vector<double> getOutputs(vector<vector<string>> instances);
+        vector<double> getOutputs(vector<vector<string> > instances);
 
         /*calcuates the improvement from the parents output domain to the childrens output domains
         using the sum of squares method. the more improvement, the better the split is*/
         double calcImprovement(vector<double> parent, vector<double> left, vector<double> right);
 
         //splits the input domain according to the best split value found, uses this split for the recursive call
-        void getInstances(vector<vector<string>> instances, int bestI, int bestJ, vector<vector<string>>& leftInstances, vector<vector<string>>& rightInstances);
+        void getInstances(vector<vector<string> > instances, int bestI, int bestJ, vector<vector<string> >& leftInstances, vector<vector<string> >& rightInstances);
 
         //finds the average of a vector of doubles.
         double getAvg(vector<double> vec);
