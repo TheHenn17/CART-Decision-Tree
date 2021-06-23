@@ -1,135 +1,100 @@
-#include "CART.h"
 #include <chrono>
-
-const int TESTS = 100;
-
-double distance(Centroid* c1, RgbPixel* p); //non-approximated distance formula
-double distance(Centroid* c1, RgbPixel* p, CART* c); //approximated distance formula
-Centroid* getRandomCentroid(); //generates a random centroid
-RgbPixel* getRandomRgbPixel(); //generates a random rgb pixel
-void generate(string input); //generates a file of 500 random centroids and pixels and their distances
+#include "Functions/Distance.h"
+#include "Functions/Polynomial.h"
 
 int main() {
-    srand (time(NULL)); //random number seed
-    //generate("distance.dat");
-    CART* c = new CART("distance.dat", 3); //create decision tree from 'distance.dat'
-    c->printTree(); //print the tree
+    int input;
+    unsigned depth;
+    Function* function = 0;
 
-    //following code will generate 100 centroids and pixels for testing the tree
-    vector<Centroid*> cents;
-    vector<RgbPixel*> pixs;
-    for(int i = 0; i < TESTS; i++) {
-        cents.push_back(getRandomCentroid());
-        pixs.push_back(getRandomRgbPixel());
+    cout << "Welcome to *UHHHH WE NEEED A NAME*\n\n";
+    cout << "Please enter the function you would like to approximate:\n";
+    cout << "\t1. Distance\n";
+    cout << "\t2. Polynomial\n";
+    cin >> input;
+    cout << "\nPlease enter the depth of the tree (make this dynamic later?): ";
+    cin >> depth;
+    
+    cout << "\nCalculating Tree...\n";
+    switch(input) {
+        case 1:
+            function = new Distance("Tree_Generation_Files/distance.dat", "Test_Files/distanceTests.dat", depth);
+            break;
+        case 2:
+            function = new Polynomial("Tree_Generation_Files/polynomial.dat", "Test_Files/polynomialTests.dat", depth);
+            break;
+        default:
+            cout << "Error: Invalid input\n";
+            exit(1);
+            break;
     }
+    cout << "Done.\n";
 
-    //following code will run the non-approximated distance formula on the test cases and store the distances
-    //also times how long this process takes
-    vector<double> answers;
-    auto start1 = std::chrono::steady_clock::now();
-    for(int i = 0; i < TESTS; i++) {
-        answers.push_back(distance(cents.at(i), pixs.at(i)));
-    }
-    auto stop1 = std::chrono::steady_clock::now();
-
-    //following code will run the approximated distance formula on the test cases and store the distances
-    //also times how long this process takes
+    vector<double> computations;
     vector<double> approximations;
-    auto start2 = std::chrono::steady_clock::now();
-    for(int i = 0; i < TESTS; i++) {
-        approximations.push_back(distance(cents.at(i), pixs.at(i), c));
-    }
-    auto stop2 = std::chrono::steady_clock::now();
 
-    //following code will calcuate the average error of the decision tree's answers
-    double sum = 0;
-    for(int i = 0; i < TESTS; i++) {
-        sum += (approximations.at(i)-answers.at(i))/answers.at(i);
-    }
-    cout << "Average error: " << sum / TESTS << endl;
+    while(true) {
+        cout << "\nWhat would you like to do?\n";
+        cout << "\t1. Print Tree\n";
+        cout << "\t2. Find computation time\n";
+        cout << "\t3. Find approximation time\n";
+        cout << "\t4. Find computation time, approximation time, and percent error\n";
+        cout << "\t5. Quit\n";
+        cin >> input;
+        cout << endl;
 
-    //following code will calculate the run-time of each distance function and output it
-    auto duration1 = std::chrono::duration_cast<std::chrono::microseconds>(stop1 - start1);
-    auto duration2 = std::chrono::duration_cast<std::chrono::microseconds>(stop2 - start2);
-    cout << "Time taken by Formula: " << duration1.count() << " microseconds" << endl;
-    cout << "Time taken by Tree: " << duration2.count() << " microseconds";
+        switch(input) {
+            case 1:
+                function->printTree();
+                break;
+            case 2:
+            {
+                auto start = std::chrono::steady_clock::now();
+                computations = function->compute();
+                auto stop = std::chrono::steady_clock::now();
+                auto computationDuration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+                cout << "Time taken by computing: " << computationDuration.count() << " microseconds\n";
+                break;
+            }
+            case 3:
+            {
+                auto start = std::chrono::steady_clock::now();
+                approximations = function->approximate();
+                auto stop = std::chrono::steady_clock::now();
+                auto approximationDuration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
+                cout << "Time taken by approximating: " << approximationDuration.count() << " microseconds\n";
+                break;
+            }
+            case 4:
+            {
+                auto start1 = std::chrono::steady_clock::now();
+                computations = function->compute();
+                auto stop1 = std::chrono::steady_clock::now();
+                auto computationDuration = std::chrono::duration_cast<std::chrono::microseconds>(stop1 - start1);
+
+                auto start2 = std::chrono::steady_clock::now();
+                approximations = function->approximate();
+                auto stop2 = std::chrono::steady_clock::now();
+                auto approximationDuration = std::chrono::duration_cast<std::chrono::microseconds>(stop2 - start2);
+
+                cout << "Time taken by computing: " << computationDuration.count() << " microseconds\n";
+                cout << "Time taken by approximating: " << approximationDuration.count() << " microseconds\n";
+                double sum = 0;
+                for(int i = 0; i < computations.size(); i++) {
+                    sum += abs((approximations.at(i)-computations.at(i)))/computations.at(i);
+                }
+                cout << "Average error: " << sum / computations.size() << endl;
+                break;
+            }
+            case 5:
+                exit(0);
+                break;
+            default:
+                cout << "Error: Invalid input\n";
+                exit(1);
+                break;
+        }
+    }
 
     return 0;
-}
-
-//non-approximated distance function
-double distance(Centroid* c1, RgbPixel* p) {
-    double r = 0;
-    r += ((c1->r - p->r) * (c1->r - p->r));
-    r += ((c1->g - p->g) * (c1->g - p->g));
-    r += ((c1->b - p->b) * (c1->b - p->b));
-    return sqrt(r);
-}
-
-//approximated distance function with decision tree
-double distance(Centroid* c1, RgbPixel* p, CART* c) {
-    node* search = c->getRoot(); //gets root of tree
-
-    //stores the values of the centroid and rgbpixels
-    vector<double> v;
-    v.push_back(c1->r);
-    v.push_back(c1->g);
-    v.push_back(c1->b);
-    v.push_back(p->r);
-    v.push_back(p->g);
-    v.push_back(p->b);
-
-    //while not at a leaf, search left or right according to the threshold value and the given inputs
-    while(search->index != -1) {
-        if(v.at(search->index) <= search->threshold) {
-            search = search->left;
-        }
-        else {
-            search = search->right;
-        }
-    }
-
-    return search->threshold; //return the leaf threshold (predicted value)
-}
-
-//generates a random centroid
-Centroid* getRandomCentroid() {
-    Centroid* c = new Centroid;
-    c->r = rand() % 256;
-    c->g = rand() % 256;
-    c->b = rand() % 256;
-    return c;
-}
-
-//generates a random rgb pixel
-RgbPixel* getRandomRgbPixel() {
-    RgbPixel* p = new RgbPixel;
-    p->r = rand() % 256;
-    p->g = rand() % 256;
-    p->b = rand() % 256;
-    return p;
-}
-
-//generates a file of 500 random centroids and pixels and their distances for training
-void generate(string input) {
-    ofstream outFS;
-    outFS.open(input);
-    outFS << "cR, cG, cB, pR, pG, pB, Distance\n";
-    outFS << "Continous, Continous, Continous, Continous, Continous, Continous, Continous\n";
-    Centroid* c;
-    RgbPixel* p;
-    for(int i = 0; i < 500; i++) {
-        c = getRandomCentroid();
-        p = getRandomRgbPixel();
-        outFS << c->r << ", ";
-        outFS << c->g << ", ";
-        outFS << c->b << ", ";
-        outFS << p->r << ", ";
-        outFS << p->g << ", ";
-        outFS << p->b << ", ";
-        outFS << distance(c, p) << "\n";
-        delete c;
-        delete p;
-    }
-    outFS.close();
 }
