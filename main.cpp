@@ -11,6 +11,16 @@ void generate() {
     }
     outFS.close();
 }
+void doubleGenerate() {
+    srand(time(NULL));
+    ofstream outFS;
+    outFS.open("Test_Files/complexPolynomialTests.dat");
+    for(int i = 1; i <=100; i++) {
+        outFS << rand() % 500 + 1 << endl;
+        outFS << rand() % 500 + 1 << endl;
+    }
+    outFS.close();
+}
 
 int main() {
     int input;
