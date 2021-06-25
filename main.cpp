@@ -2,10 +2,22 @@
 #include "Functions/Distance.h"
 #include "Functions/Polynomial.h"
 
+void generate() {
+    srand(time(NULL));
+    ofstream outFS;
+    outFS.open("Test_Files/polynomialTests.dat");
+    for(int i = 1; i <=100; i++) {
+        outFS << rand() % 500 + 1 << endl;
+    }
+    outFS.close();
+}
+
 int main() {
     int input;
     unsigned depth;
     Function* function = 0;
+
+    //generate();
 
     cout << "Welcome to Cool Tree Program\n\n";
     cout << "Please enter the function you would like to approximate:\n";
