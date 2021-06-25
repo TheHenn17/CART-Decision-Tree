@@ -6,7 +6,7 @@
 class Function {
     protected:
         CART* tree;
-        vector<vector<double>> tests;
+        vector<vector<double> > tests;
     public:
         Function(string treeGenerationFile, string testFile, int depth);
         virtual vector<double> compute() = 0;
