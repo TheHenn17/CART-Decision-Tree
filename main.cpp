@@ -35,7 +35,7 @@ int main() {
     unsigned depth;
     Function* function = 0;
 
-    //generate();
+    generate();
     //generate2();
 
     cout << "Welcome to Cool Tree Program\n\n";
