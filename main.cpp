@@ -8,18 +8,6 @@
 void generate() {
     srand(time(NULL));
     ofstream outFS;
-    double total;
-    outFS.open("Tree_Generation_Files/sigmoid.dat");
-    for(double i = -6; i <=6; i = i + .02) {
-        total = 1 / (1 + exp(-i));
-        outFS << i << ", " << total << endl;
-    }
-    outFS.close();
-}
-
-void generate2() {
-    srand(time(NULL));
-    ofstream outFS;
     double random;
     outFS.open("Test_Files/sigmoidTests.dat");
     for(int i = 1; i <=100; i++) {
@@ -35,8 +23,7 @@ int main() {
     unsigned depth;
     Function* function = 0;
 
-    //generate();
-    //generate2();
+    generate();
 
     cout << "Welcome to Cool Tree Program\n\n";
     cout << "Please enter the function you would like to approximate:\n";

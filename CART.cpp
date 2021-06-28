@@ -31,7 +31,7 @@ CART::CART(string input, int d) {
     }
     SS.clear();
     if(getline(inFS, data)) {
-        vector<vector<string>> instances; //stores the instances by attributes (inputs)
+        vector<vector<string> > instances; //stores the instances by attributes (inputs)
         SS << data;
         //adds the first instance, special case that needs to push the vectors into the 2D vector
         while(SS >> data) {
@@ -67,7 +67,7 @@ CART::CART(string input, int d) {
 /*called by constructor. will find the attributes in the training data that improves
 the search the most (see calcImprovement). Then, it splits the input domain according
 to the attribute chose, and recursively calculates the child subtrees*/
-node* CART::generateTree(vector<vector<string>> instances, int curDepth) {
+node* CART::generateTree(vector<vector<string> > instances, int curDepth) {
     node* treeRoot = new node; //create a new node
 
     //if true, this call produces a leaf, calculate average of output domain and store as leaf value (in threshold)
@@ -110,8 +110,8 @@ node* CART::generateTree(vector<vector<string>> instances, int curDepth) {
     treeRoot->type = types.at(bestI);
     treeRoot->threshold = stod(instances.at(bestI).at(bestJ));
     treeRoot->index = bestI;
-    vector<vector<string>> leftInstances;
-    vector<vector<string>> rightInstances;
+    vector<vector<string> > leftInstances;
+    vector<vector<string> > rightInstances;
     getInstances(instances, bestI, bestJ, leftInstances, rightInstances); //splits input domains into left and right
     node* leftNode = generateTree(leftInstances, curDepth+1); //generates left tree
     node* rightNode = generateTree(rightInstances, curDepth+1); //generates right tree
@@ -122,7 +122,7 @@ node* CART::generateTree(vector<vector<string>> instances, int curDepth) {
 
 /*given a potential split value, this function seperates the output domain by the instances
 that are less than or equal to the split value, and those that are greater*/
-void CART::split(vector<vector<string>> instances, string splitValue, int attribute, vector<double>& left, vector<double>& right) {
+void CART::split(vector<vector<string> > instances, string splitValue, int attribute, vector<double>& left, vector<double>& right) {
     double sv = stod(splitValue); //convert split value to a double
 
     //loop through all instances
@@ -137,7 +137,7 @@ void CART::split(vector<vector<string>> instances, string splitValue, int attrib
 }
 
 //returns the output domain of the given set of instances
-vector<double> CART::getOutputs(vector<vector<string>> instances) {
+vector<double> CART::getOutputs(vector<vector<string> > instances) {
     vector<double> ret;
     for(int i = 0; i < instances.at(instances.size()-1).size(); i++) {
         ret.push_back(stod(instances.at(instances.size()-1).at(i)));
@@ -169,7 +169,7 @@ double CART::calcImprovement(vector<double> parent, vector<double> left, vector<
 }
 
 //splits the input domain according to the best split value found, uses this split for the recursive call
-void CART::getInstances(vector<vector<string>> instances, int bestI, int bestJ, vector<vector<string>>& leftInstances, vector<vector<string>>& rightInstances) {
+void CART::getInstances(vector<vector<string> > instances, int bestI, int bestJ, vector<vector<string> >& leftInstances, vector<vector<string> >& rightInstances) {
     double sv = stod(instances.at(bestI).at(bestJ)); //convert string to double
 
     //initialize 2D vectors
