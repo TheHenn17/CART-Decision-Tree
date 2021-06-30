@@ -1,7 +1,7 @@
 #include "MatrixMult3x3.h"
 
-MatrixMult3x3::MatrixMult3x3(string treeGenerationFile, string testFile, int depth) 
-                    : Function(treeGenerationFile, testFile, depth) {}
+MatrixMult3x3::MatrixMult3x3(string treeGenerationFile, string testFile, int stop) 
+                    : Function(treeGenerationFile, testFile, stop) {}
 
 vector<double> MatrixMult3x3::compute() {
     vector<double> computes;

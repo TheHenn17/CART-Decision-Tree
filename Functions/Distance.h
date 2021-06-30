@@ -4,6 +4,6 @@
 
 class Distance : public Function {
     public:
-        Distance(string treeGenerationFile, string testFile, int depth);
+        Distance(string treeGenerationFile, string testFile, int stop);
         vector<double> compute();
 };

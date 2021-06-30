@@ -113,11 +113,10 @@ void generate3MTF() {
 
 int main() {
     int input;
-    unsigned depth;
     Function* function = 0;
 
     //generate();
-    generate3MTF();
+    //generate3MTF();
 
     cout << "Welcome to Cool Tree Program\n\n";
     cout << "Please enter the function you would like to approximate:\n";
@@ -128,28 +127,26 @@ int main() {
     cout << "\t5. Tanh\n";
     cout << "\t6. MatrixMult3x3\n";
     cin >> input;
-    cout << "\nPlease enter the depth of the tree (make this dynamic later?): ";
-    cin >> depth;
     
     cout << "\nCalculating Tree...\n";
     switch(input) {
         case 1:
-            function = new Distance("Tree_Generation_Files/distance.dat", "Test_Files/distanceTests.dat", depth);
+            function = new Distance("Tree_Generation_Files/distance.dat", "Test_Files/distanceTests.dat", 10);
             break;
         case 2:
-            function = new Polynomial("Tree_Generation_Files/polynomial.dat", "Test_Files/polynomialTests.dat", depth);
+            function = new Polynomial("Tree_Generation_Files/polynomial.dat", "Test_Files/polynomialTests.dat", 10);
             break;
         case 3:
-            function = new ComplexPolynomial("Tree_Generation_Files/complexPolynomial.dat", "Test_Files/complexPolynomialTests.dat", depth);
+            function = new ComplexPolynomial("Tree_Generation_Files/complexPolynomial.dat", "Test_Files/complexPolynomialTests.dat", 10);
             break;
         case 4:
-            function = new Sigmoid("Tree_Generation_Files/sigmoid.dat", "Test_Files/sigmoidTests.dat", depth);
+            function = new Sigmoid("Tree_Generation_Files/sigmoid.dat", "Test_Files/sigmoidTests.dat", 10);
             break;
         case 5:
-            function = new Tanh("Tree_Generation_Files/tanh.dat", "Test_Files/tanhTests.dat", depth);
+            function = new Tanh("Tree_Generation_Files/tanh.dat", "Test_Files/tanhTests.dat", 10);
             break;
         case 6:
-            function = new MatrixMult3x3("Tree_Generation_Files/matrixMult3x3.dat", "Test_Files/matrixMult3x3Tests.dat", depth);
+            function = new MatrixMult3x3("Tree_Generation_Files/matrixMult3x3.dat", "Test_Files/matrixMult3x3Tests.dat", 10);
             break;
         default:
             cout << "Error: Invalid input\n";

@@ -1,7 +1,7 @@
 #include "ComplexPolynomial.h"
 
-ComplexPolynomial::ComplexPolynomial(string treeGenerationFile, string testFile, int depth) 
-                    : Function(treeGenerationFile, testFile, depth) {}
+ComplexPolynomial::ComplexPolynomial(string treeGenerationFile, string testFile, int stop) 
+                    : Function(treeGenerationFile, testFile, stop) {}
 
 vector<double> ComplexPolynomial::compute() {
     vector<double> computes;

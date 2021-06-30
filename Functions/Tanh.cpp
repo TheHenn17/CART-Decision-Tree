@@ -1,7 +1,7 @@
 #include "Tanh.h"
 
-Tanh::Tanh(string treeGenerationFile, string testFile, int depth) 
-                    : Function(treeGenerationFile, testFile, depth) {}
+Tanh::Tanh(string treeGenerationFile, string testFile, int stop) 
+                    : Function(treeGenerationFile, testFile, stop) {}
 
 vector<double> Tanh::compute() {
     vector<double> computes;

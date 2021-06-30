@@ -1,7 +1,7 @@
 #include "Distance.h"
 
-Distance::Distance(string treeGenerationFile, string testFile, int depth) 
-                    : Function(treeGenerationFile, testFile, depth) {}
+Distance::Distance(string treeGenerationFile, string testFile, int stop) 
+                    : Function(treeGenerationFile, testFile, stop) {}
 
 vector<double> Distance::compute() {
     double r;
