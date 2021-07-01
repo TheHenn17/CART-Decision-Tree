@@ -12,4 +12,5 @@ class Function {
         virtual vector<double> compute() = 0;
         vector<double> approximate();
         void printTree();
+        void createTreeFileFromTestFile(string file);
 };
