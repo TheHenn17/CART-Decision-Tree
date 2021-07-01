@@ -2,8 +2,8 @@
 
 Function::Function(string treeGenerationFile, string testFile, int stop) {
     ifstream inFS;
-    inFS.open(testFile);
     string data;
+    inFS.open(testFile);
     stringstream SS;
 
     if(!inFS.is_open()) {
@@ -50,4 +50,34 @@ vector<double> Function::approximate() {
 
 void Function::printTree() {
     tree->printTree();
+}
+
+void Function::createTreeFileFromTestFile(string file) {
+    vector<double> computes = compute();
+    ofstream outFS;
+    ifstream inFS;
+    string data, ftl;
+    inFS.open(file);
+    if(!inFS.is_open()) {
+        cout << "Error: File " << file << " does not exist\n";
+        exit(1);
+    }
+    getline(inFS, data);
+    ftl = data + "\n";
+    getline(inFS, data);
+    ftl += data;
+    inFS.close();
+
+    outFS.open(file);
+    outFS << ftl << endl;
+    vector<double> instance;
+
+    for(int i = 0; i < tests.size(); i++) {
+        instance = tests.at(i);
+        for(int j = 0; j < instance.size(); j++) {
+            outFS << instance.at(j) << ", ";
+        }
+        outFS << computes.at(i) << endl;
+    }
+    outFS.close();
 }
