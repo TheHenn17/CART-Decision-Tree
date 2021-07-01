@@ -1,6 +1,6 @@
 #include "Function.h"
 
-Function::Function(string treeGenerationFile, string testFile, int depth) {
+Function::Function(string treeGenerationFile, string testFile, int stop) {
     ifstream inFS;
     inFS.open(testFile);
     string data;
@@ -25,7 +25,7 @@ Function::Function(string treeGenerationFile, string testFile, int depth) {
     }
 
     inFS.close();
-    tree = new CART(treeGenerationFile, depth);
+    tree = new CART(treeGenerationFile, stop);
 }
 
 vector<double> Function::approximate() {

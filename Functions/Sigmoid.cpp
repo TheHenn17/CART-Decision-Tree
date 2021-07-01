@@ -1,7 +1,7 @@
 #include "Sigmoid.h"
 
-Sigmoid::Sigmoid(string treeGenerationFile, string testFile, int depth) 
-                    : Function(treeGenerationFile, testFile, depth) {}
+Sigmoid::Sigmoid(string treeGenerationFile, string testFile, int stop) 
+                    : Function(treeGenerationFile, testFile, stop) {}
 
 vector<double> Sigmoid::compute() {
     vector<double> computes;

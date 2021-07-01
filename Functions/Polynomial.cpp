@@ -1,7 +1,7 @@
 #include "Polynomial.h"
 
-Polynomial::Polynomial(string treeGenerationFile, string testFile, int depth) 
-                    : Function(treeGenerationFile, testFile, depth) {}
+Polynomial::Polynomial(string treeGenerationFile, string testFile, int stop) 
+                    : Function(treeGenerationFile, testFile, stop) {}
 
 vector<double> Polynomial::compute() {
     vector<double> computes;

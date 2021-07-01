@@ -4,6 +4,6 @@
 
 class Polynomial : public Function {
     public:
-        Polynomial(string treeGenerationFile, string testFile, int depth);
+        Polynomial(string treeGenerationFile, string testFile, int stop);
         vector<double> compute();
 };

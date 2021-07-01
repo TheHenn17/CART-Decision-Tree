@@ -4,6 +4,6 @@
 
 class Tanh : public Function {
     public:
-        Tanh(string treeGenerationFile, string testFile, int depth);
+        Tanh(string treeGenerationFile, string testFile, int stop);
         vector<double> compute();
 };

@@ -1,8 +1,8 @@
 #include "CART.h"
 
 //constructor: takes in training data file name and the desired depth of the tree
-CART::CART(string input, int d) {
-    depth = d; //set depth to desired depth
+CART::CART(string input, int s) {
+    stop = s;
     ifstream inFS;
     inFS.open(input); //open the input file
     string data = "";
@@ -57,21 +57,22 @@ CART::CART(string input, int d) {
             }
             SS.clear();
         }
-        root = generateTree(instances, 0); //generates the tree and returns the root
+        root = generateTree(instances); //generates the tree and returns the root
     }
     else {
         root = 0;
     }
+    height = getHeight(root);
 }
 
 /*called by constructor. will find the attributes in the training data that improves
 the search the most (see calcImprovement). Then, it splits the input domain according
 to the attribute chose, and recursively calculates the child subtrees*/
-node* CART::generateTree(vector<vector<string> > instances, int curDepth) {
+node* CART::generateTree(vector<vector<string> > instances) {
     node* treeRoot = new node; //create a new node
 
     //if true, this call produces a leaf, calculate average of output domain and store as leaf value (in threshold)
-    if(curDepth == depth || instances.at(0).size() == 1) {
+    if(instances.at(0).size() <= stop) {
         vector<double> output = getOutputs(instances); //find output space
         treeRoot->label = labels.at(labels.size()-1); //last label is the output name
         treeRoot->type = types.at(types.size()-1); //last type is the output type
@@ -113,8 +114,8 @@ node* CART::generateTree(vector<vector<string> > instances, int curDepth) {
     vector<vector<string> > leftInstances;
     vector<vector<string> > rightInstances;
     getInstances(instances, bestI, bestJ, leftInstances, rightInstances); //splits input domains into left and right
-    node* leftNode = generateTree(leftInstances, curDepth+1); //generates left tree
-    node* rightNode = generateTree(rightInstances, curDepth+1); //generates right tree
+    node* leftNode = generateTree(leftInstances); //generates left tree
+    node* rightNode = generateTree(rightInstances); //generates right tree
     treeRoot->left = leftNode; //append subtree
     treeRoot->right = rightNode; //append subtree
     return treeRoot;
@@ -205,6 +206,19 @@ double CART::getAvg(vector<double> vec) {
     return avg / vec.size();
 }
 
+//returns the height of the tree
+int CART::getHeight(node* n) {
+    if(n == 0) {
+        return 0;
+    }
+    else {
+        int leftHeight = getHeight(n->left);
+        int rightHeight = getHeight(n->right);
+        int maximum = max(leftHeight, rightHeight) + 1;
+        return maximum;
+    }
+}
+/*
 //prints tree (using private print tree not accessible to user)
 void CART::printTree() {
     node* n = root;
@@ -231,4 +245,51 @@ void CART::printTree(node* n, int d) {
     cout << n->threshold << endl;
     printTree(n->right, d+1);
     printTree(n->left, d+1);
+}*/
+
+void CART::printTree() {
+    ofstream outFS;
+    outFS.open("print.txt");
+    vector<vector<node*> > tree;
+    for(int i = 0; i < height; i++) {
+        vector<node*> v;
+        tree.push_back(v);
+    }
+    BFS(root, 0, tree);
+    int maxTabs = (2*pow(2, height-1))-1;
+    int numTabs;
+    for(int i = 0; i < tree.size(); i++) {
+        numTabs = ceil(((double)maxTabs - (double)tree.at(i).size()) / ((double)tree.at(i).size()+1.0));
+        for(int j = 0; j < tree.at(i).size(); j++) {
+            if(!(numTabs ==1 && j == 0)) {
+                for(int k = 0; k < numTabs; k++) {
+                    outFS << "\t";
+                }
+            }
+            if(tree.at(i).at(j) == 0) {
+                outFS << "\t";
+            }
+            else {
+                outFS << tree.at(i).at(j)->label << " : " << tree.at(i).at(j)->threshold;
+            }
+        }
+        outFS << endl << endl;
+    }
+    outFS.close();
+    cout << "Tree printed to \"print.txt\"" << endl;
+}
+
+void CART::BFS(node* n, int h, vector<vector<node*> >& tree) {
+    if(n == 0 && h < height) {
+        tree.at(h).push_back(n);
+        BFS(0, h+1, tree);
+        BFS(0, h+1, tree);
+        return;
+    }
+    if(n == 0) {
+        return;
+    }
+    tree.at(h).push_back(n);
+    BFS(n->left, h+1, tree);
+    BFS(n->right, h+1, tree);
 }

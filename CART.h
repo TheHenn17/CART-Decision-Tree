@@ -7,20 +7,9 @@
 #include <sstream>
 #include <cfloat>
 #include <math.h>
+#include <algorithm>
 
 using namespace std;
-
-struct Centroid {
-    double r;
-    double g;
-    double b;
-};
-
-struct RgbPixel {
-    double r;
-    double g;
-    double b;
-};
 
 struct node {
     string label; //stores the name of the input
@@ -36,7 +25,8 @@ class CART {
         node* root; //root of the tree
         vector<string> labels; //list of input names
         vector<string> types; //list of input types
-        int depth; //depth of the tree
+        int stop; //how many nodes in an instance set needed to make a leaf
+        int height; //height of tree
     public:
         //constructor: takes in training data file name and the desired depth of the tree
         CART(string input, int d);
@@ -47,7 +37,7 @@ class CART {
         /*called by constructor. will find the attributes in the training data that improves
         the search the most (see calcImprovement). Then, it splits the input domain according
         to the attribute chose, and recursively calculates the child subtrees*/
-        node* generateTree(vector<vector<string> > instances, int curDepth);
+        node* generateTree(vector<vector<string> > instances);
 
         /*given a potential split value, this function seperates the output domain by the instances
         that are less than or equal to the split value, and those that are greater*/
@@ -68,4 +58,9 @@ class CART {
 
         //helper function to the tree print; prints tree recursively, using tabs according to the depth
         void printTree(node* n, int d);
+
+        //returns tree height
+        int getHeight(node* n);
+
+        void BFS(node* n, int h, vector<vector<node*> >& tree);
 };

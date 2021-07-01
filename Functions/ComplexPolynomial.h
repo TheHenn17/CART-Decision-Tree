@@ -4,6 +4,6 @@
 
 class ComplexPolynomial : public Function {
     public:
-        ComplexPolynomial(string treeGenerationFile, string testFile, int depth);
+        ComplexPolynomial(string treeGenerationFile, string testFile, int stop);
         vector<double> compute();
 };

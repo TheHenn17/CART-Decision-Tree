@@ -4,6 +4,6 @@
 
 class Sigmoid : public Function {
     public:
-        Sigmoid(string treeGenerationFile, string testFile, int depth);
+        Sigmoid(string treeGenerationFile, string testFile, int stop);
         vector<double> compute();
 };
