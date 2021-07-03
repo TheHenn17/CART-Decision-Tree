@@ -6,16 +6,15 @@
 #include "Functions/Tanh.h"
 #include "Functions/MatrixMult3x3.h"
 #include "Functions/Determinant.h"
-#include "Functions/Norm3x3.h"
-#include "Functions/Norm2x2.h"
+#include "Functions/EuclideanNorm.h"
 
 void generate() {
     srand(time(NULL));
     ofstream outFS;
     double random;
-    outFS.open("Test_Files/norm2x2Tests.dat");
+    outFS.open("Test_Files/euclideanNormTests.dat");
     for(int i = 1; i <=100; i++) {
-        for(int j = 0; j < 3; j++) {
+        for(int j = 0; j < 8; j++) {
             random = rand() % 10 + 1;
             outFS << random << ", ";
         }
@@ -51,8 +50,7 @@ int main() {
     cout << "\t5. Tanh\n";
     cout << "\t6. MatrixMult3x3\n";
     cout << "\t7. Determinant\n";
-    cout << "\t8. Norm2x2\n";
-    cout << "\t9. Norm3x3\n";
+    cout << "\t8. EuclideanNorm\n";
     cin >> input;
     
     cout << "\nCalculating Tree...\n";
@@ -79,10 +77,7 @@ int main() {
             function = new Determinant("Tree_Generation_Files/determinant.dat", "Test_Files/determinantTests.dat", 10);
             break;
         case 8:
-            function = new Norm2x2("Tree_Generation_Files/norm2x2.dat", "Test_Files/norm2x2Tests.dat", 10);
-            break;
-        case 9:
-            function = new Norm3x3("Tree_Generation_Files/norm3x3.dat", "Test_Files/norm3x3Tests.dat", 10);
+            function = new EuclideanNorm("Tree_Generation_Files/determinant.dat", "Test_Files/euclideanNormTests.dat", 10);
             break;
         default:
             cout << "Error: Invalid input\n";
@@ -90,8 +85,6 @@ int main() {
             break;
     }
     cout << "Done.\n";
-
-    //function->createTreeFileFromTestFile("Tree_Generation_Files/determinant.dat");
 
     vector<double> computations;
     vector<double> approximations;
@@ -145,7 +138,6 @@ int main() {
                 double sum = 0;
                 for(int i = 0; i < computations.size(); i++) {
                     sum += abs((approximations.at(i)-computations.at(i))/computations.at(i));
-                    //cout << approximations.at(i) << " " << computations.at(i) << endl;
                 }
                 cout << "Average error: " << sum / computations.size() << endl;
                 break;
