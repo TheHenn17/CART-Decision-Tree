@@ -15,3 +15,15 @@ vector<double> ComplexPolynomial::compute() {
     }
     return computes;
 }
+
+void ComplexPolynomial::generateRandomTestFile(int instances) {
+    srand(time(NULL));
+    ofstream outFS;
+    double random;
+    outFS.open(tf);
+    for(int i = 1; i <= instances; i++) {
+        random = -1 + (double)(rand()) / ((double)(RAND_MAX/2));
+        outFS << random << ", 2" << endl;
+    }
+    outFS.close();
+}

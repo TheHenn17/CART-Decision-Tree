@@ -15,3 +15,16 @@ vector<double> Tanh::compute() {
     }
     return computes;
 }
+
+void Tanh::generateRandomTestFile(int instances) {
+    srand(time(NULL));
+    ofstream outFS;
+    double random;
+    cout << tf;
+    outFS.open(tf);
+    for(int i = 1; i <= instances; i++) {
+        random = -1 + (double)(rand()) / ((double)(RAND_MAX/2));
+        outFS << random << endl;
+    }
+    outFS.close();
+}

@@ -15,3 +15,15 @@ vector<double> Polynomial::compute() {
     }
     return computes;
 }
+
+void Polynomial::generateRandomTestFile(int instances) {
+    srand(time(NULL));
+    ofstream outFS;
+    double random;
+    outFS.open(tf);
+    for(int i = 1; i <= instances; i++) {
+        random = rand() % 500 + 1;
+        outFS << random << endl;
+    }
+    outFS.close();
+}

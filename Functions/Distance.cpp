@@ -18,3 +18,19 @@ vector<double> Distance::compute() {
     }
     return computes;
 }
+
+void Distance::generateRandomTestFile(int instances) {
+    srand(time(NULL));
+    ofstream outFS;
+    double random;
+    outFS.open(tf);
+    for(int i = 1; i <= instances; i++) {
+        for(int j = 0; j < 5; j++) {
+            random = rand() % 256;
+            outFS << random << ", ";
+        }
+        random = rand() % 256;
+        outFS << random << endl;
+    }
+    outFS.close();
+}

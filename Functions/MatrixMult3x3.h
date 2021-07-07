@@ -6,4 +6,5 @@ class MatrixMult3x3 : public Function {
     public:
         MatrixMult3x3(string treeGenerationFile, string testFile, int stop);
         vector<double> compute();
+        void generateRandomTestFile(int instances);
 };
