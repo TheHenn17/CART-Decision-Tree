@@ -218,34 +218,6 @@ int CART::getHeight(node* n) {
         return maximum;
     }
 }
-/*
-//prints tree (using private print tree not accessible to user)
-void CART::printTree() {
-    node* n = root;
-    printTree(n, 0);
-}
-
-//prints tree recursively, using tabs according to the depth
-void CART::printTree(node* n, int d) {
-    if(n == 0) {
-        cout << endl;
-        return;
-    }
-    for(int i = 0; i < d; i++) {
-        cout << "\t";
-    }
-    cout << n->label << endl;
-    for(int i = 0; i < d; i++) {
-        cout << "\t";
-    }
-    cout << n->type << endl;
-    for(int i = 0; i < d; i++) {
-        cout << "\t";
-    }
-    cout << n->threshold << endl;
-    printTree(n->right, d+1);
-    printTree(n->left, d+1);
-}*/
 
 void CART::printTree() {
     ofstream outFS;

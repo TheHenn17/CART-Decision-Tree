@@ -16,3 +16,14 @@ vector<double> Sigmoid::compute() {
     return computes;
 }
 
+void Sigmoid::generateRandomTestFile(int instances) {
+    srand(time(NULL));
+    ofstream outFS;
+    double random;
+    outFS.open(tf);
+    for(int i = 1; i <= instances; i++) {
+        random = -6 + (double)(rand()) / ((double)(RAND_MAX/12));
+        outFS << random << endl;
+    }
+    outFS.close();
+}

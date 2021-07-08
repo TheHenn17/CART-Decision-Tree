@@ -18,3 +18,7 @@ vector<double> MatrixMult3x3::compute() {
     }
     return computes;
 }
+
+void MatrixMult3x3::generateRandomTestFile(int instances) {
+    
+}

@@ -32,3 +32,19 @@ vector<double> EuclideanNorm::compute() {
 [b1][b2]
 
 */
+
+void EuclideanNorm::generateRandomTestFile(int instances) {
+    srand(time(NULL));
+    ofstream outFS;
+    double random;
+    outFS.open(tf);
+    for(int i = 1; i <= instances; i++) {
+        for(int j = 0; j < 8; j++) {
+            random = rand() % 10 + 1;
+            outFS << random << ", ";
+        }
+        random = rand() % 10 + 1;
+        outFS << random << endl;
+    }
+    outFS.close();
+}

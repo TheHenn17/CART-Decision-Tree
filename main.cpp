@@ -1,45 +1,14 @@
-#include <chrono>
 #include "Functions/Distance.h"
 #include "Functions/Polynomial.h"
 #include "Functions/ComplexPolynomial.h"
 #include "Functions/Sigmoid.h"
 #include "Functions/Tanh.h"
-#include "Functions/MatrixMult3x3.h"
 #include "Functions/Determinant.h"
 #include "Functions/EuclideanNorm.h"
-
-void generate() {
-    srand(time(NULL));
-    ofstream outFS;
-    double random;
-    outFS.open("Test_Files/euclideanNormTests.dat");
-    for(int i = 1; i <=100; i++) {
-        for(int j = 0; j < 8; j++) {
-            random = rand() % 10 + 1;
-            outFS << random << ", ";
-        }
-        //random = rand() % 500 + 1;
-        random = rand() % 10 + 1;
-        outFS << random << endl;
-    }
-    outFS.close();
-}
-void doubleGenerate() {
-    srand(time(NULL));
-    ofstream outFS;
-    outFS.open("Test_Files/complexPolynomialTests.dat");
-    for(int i = 1; i <=100; i++) {
-        outFS << rand() % 500 + 1 << endl;
-        outFS << rand() % 500 + 1 << endl;
-    }
-    outFS.close();
-}
 
 int main() {
     int input;
     Function* function = 0;
-
-    generate();
 
     cout << "Welcome to Cool Tree Program\n\n";
     cout << "Please enter the function you would like to approximate:\n";
@@ -48,9 +17,8 @@ int main() {
     cout << "\t3. Complex Polynomial\n";
     cout << "\t4. Sigmoid\n";
     cout << "\t5. Tanh\n";
-    cout << "\t6. MatrixMult3x3\n";
-    cout << "\t7. Determinant\n";
-    cout << "\t8. EuclideanNorm\n";
+    cout << "\t6. Determinant\n";
+    cout << "\t7. EuclideanNorm\n";
     cin >> input;
     
     cout << "\nCalculating Tree...\n";
@@ -71,12 +39,9 @@ int main() {
             function = new Tanh("Tree_Generation_Files/tanh.dat", "Test_Files/tanhTests.dat", 10);
             break;
         case 6:
-            function = new MatrixMult3x3("Tree_Generation_Files/matrixMult3x3.dat", "Test_Files/matrixMult3x3Tests.dat", 10);
-            break;
-        case 7:
             function = new Determinant("Tree_Generation_Files/determinant.dat", "Test_Files/determinantTests.dat", 10);
             break;
-        case 8:
+        case 7:
             function = new EuclideanNorm("Tree_Generation_Files/determinant.dat", "Test_Files/euclideanNormTests.dat", 10);
             break;
         default:
@@ -95,7 +60,9 @@ int main() {
         cout << "\t2. Find computation time\n";
         cout << "\t3. Find approximation time\n";
         cout << "\t4. Find computation time, approximation time, and percent error\n";
-        cout << "\t5. Quit\n";
+        cout << "\t5. Generate new random test file\n";
+        cout << "\t6. Generate new tree file from test file\n";
+        cout << "\t7. Quit\n";
         cin >> input;
         cout << endl;
 
@@ -143,6 +110,19 @@ int main() {
                 break;
             }
             case 5:
+                int inst;
+                cout << "How many tests do you want? ";
+                cin >> inst;
+                function->generateRandomTestFile(inst);
+                cout << "New test file generated. Please re-run the program.\n";
+                exit(0);
+                break;
+            case 6:
+                function->createTreeFileFromTestFile();
+                cout << "New tree file generated. Please re-run the program.\n";
+                exit(0);
+                break;
+            case 7:
                 exit(0);
                 break;
             default:

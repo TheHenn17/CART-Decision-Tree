@@ -1,6 +1,8 @@
 #include "Function.h"
 
 Function::Function(string treeGenerationFile, string testFile, int stop) {
+    tgf = treeGenerationFile;
+    tf = testFile;
     ifstream inFS;
     string data;
     inFS.open(testFile);
@@ -52,14 +54,14 @@ void Function::printTree() {
     tree->printTree();
 }
 
-void Function::createTreeFileFromTestFile(string file) {
+void Function::createTreeFileFromTestFile() {
     vector<double> computes = compute();
     ofstream outFS;
     ifstream inFS;
     string data, ftl;
-    inFS.open(file);
+    inFS.open(tgf);
     if(!inFS.is_open()) {
-        cout << "Error: File " << file << " does not exist\n";
+        cout << "Error: File " << tgf << " does not exist\n";
         exit(1);
     }
     getline(inFS, data);
@@ -68,7 +70,7 @@ void Function::createTreeFileFromTestFile(string file) {
     ftl += data;
     inFS.close();
 
-    outFS.open(file);
+    outFS.open(tgf);
     outFS << ftl << endl;
     vector<double> instance;
 
